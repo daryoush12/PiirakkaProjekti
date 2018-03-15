@@ -1,0 +1,56 @@
+{
+    "currency": "EUR",
+    "rootTarget": {
+      "target": "portfolio", "weightInPortfolio": 1, "weightInClass": 1, "marketValue": 200000000,
+      "views": [
+        {
+          "view": "currency"
+        },
+        {
+          "view": "liquidity"
+        },
+        {
+          "view": "assetClass",
+          "targets": [
+            {
+              "target": "equity", "weightInPortfolio": 0.3, "weightInClass": 0.3, "marketValue": 60000000,
+              "views": [
+                {
+                  "view": "equityClass"
+                }
+              ]
+            },
+            {
+              "target": "bond", "weightInPortfolio": 0.5, "weightInClass": 0.5, "marketValue": 100000000,
+              "views": [
+                {
+                  "view": "bondClass" 
+                }
+              ]
+            },
+            {
+              "target": "property", "weightInPortfolio": 0.1, "weightInClass": 0.1, "marketValue": 20000000
+                }
+              ]
+            },
+            {
+              "target": "cash", "weightInPortfolio": 0.05, "weightInClass": 0.05, "marketValue": 10000000,
+              "views": [
+                {
+                  "view": "cashClass"
+                }
+              ]
+            },
+            {
+              "target": "alternative", "weightInPortfolio": 0.05, "weightInClass": 0.05, "marketValue": 10000000,
+              "views": [
+                {
+                  "view": "Tyyppi"
+                }
+              ]
+            },
+            {"target": "unknown", "weightInPortfolio": 0, "weightInClass": 0, "marketValue": 0}
+          ]
+        }
+    }
+  

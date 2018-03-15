@@ -3,22 +3,22 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>PiirakkaProjekti</title>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3.v4.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="js/test.js"></script>
+  <script src="js/PieApp.js"></script>
   <script src="data.js"></script>
 </head>
 
 <body>
 
+
+<div class ="containers" id ="view_1"></div>
 <canvas id ="piecan" width="960" height="500"></canvas>
-<button onclick="NextView()">+</button>
-<button onclick="PreviousView()">-</button>
     <script>
     sessionStorage.setItem("LocationInTree", "Portfolio");  //Currency, Liquidity etc.
     var OhMy = sessionStorage.getItem("LocationInTree");
     console.log("SessionVar: "+OhMy);
-    RenderPie(ReturnPortfolioView());
+    ReturnViews();
     //Alle logiikkaa joka vaihtaa näkymää aina napin painalluksesta:
     </script>
 </body>

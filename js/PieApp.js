@@ -1,17 +1,14 @@
 
 
 
-function RenderPie(data){
-
-  
-  
+function RenderPie(data){ 
   //Kutsutaan komentoa tukiluokasta ja tallennetaan piirakan renderöintiin käytettävät arvot arraylistaan.
+  ClearCanvas();
+  console.log("MM");
   console.log("Array = "+data[0])
   var canvas = document.querySelector("canvas"),
       context = canvas.getContext("2d");    
 
- 
-  
   var width = canvas.width,
       height = canvas.height,
       radius = Math.min(width, height) / 2;
@@ -49,58 +46,55 @@ function RenderPie(data){
 
 }
 
-function ReturnPortfolioView(){
+function ReturnViews(){
     var data = returndata();
     console.log(data);
     var arr = new Array();
-    var reformattedArray = data[0].rootTarget.views.map(obj =>{ 
-        var RowTarg = obj.targets.map(obx =>{
-          rObx = 0;
-          rObx += obx.marketValue;
-          console.log("val: "+obx.marketValue);
-          return rObx;
-         })
-      console.log("Values : "+RowTarg);
-     var total =  RowTarg.reduce(function (a, b) {
-        return a + b;
-      }, 0);
-      return total;
+    data[0].rootTarget.views.map(obj =>{ 
+      var button = "<button onclick=RenderPie(ReturnFilteredView('"+obj.view+"'))>"+obj.view+"</button>";
+      document.getElementById("view_1").innerHTML += button; 
    })
      console.log("Returning: "+reformattedArray);
      arr = reformattedArray;
+      var kokeilu = "currency";
+      var button = "<button onclick=RenderPie(ReturnFilteredView('"+kokeilu+"'))>"+kokeilu+"</button>";
+      document.getElementById("view_1").innerHTML += button; 
    return arr;
 }
 
-function ReturnCurrencyView(){
+function ReturnFilteredView(target){
   var data = returndata();
-  console.log("RETURNING CURRENCY VIEW:");
+  console.log("XX RETURNING VIEW:");
   var arr = new Array();
-  var reformattedArray = data[0].rootTarget.views.filter((ob)=> ob.view == "currency");
+  var reformattedArray = data[0].rootTarget.views.filter((ob)=> ob.view == target);
   console.log(reformattedArray);
       var result = reformattedArray[0].targets.map(obj => {
           console.log("val: "+obj.marketValue);
           return obj.marketValue;
+  
       })
-   console.log("Returning: "+result);
-   arr = result;
+      arr = result;
+   console.log(result);
  return arr;
 }
 
-function ReturnLiquidityView(){
-
-}
-
-function ReturnAssetClassView(){
-
-}
-
 function NextView(){
+  ClearCanvas();
+  console.log("NEXT");
+  RenderPie(ReturnCurrencyView("liquidity"));
+}
 
+function ClearCanvas(){
   var canvas = document.getElementById("piecan");
   var context = canvas.getContext("2d");
   canvas.width = canvas.width;
+}
 
-
-  console.log("NEXT");
-  RenderPie(ReturnCurrencyView());
+function build(){
+  data = returndata();
+  var reformattedArray = data[0].rootTarget.views.map(obj =>{ 
+      return obj.view;
+  })
+ console.log(reformattedArray); 
+//New Map loop to loop the sub classes into tree view:
 }
