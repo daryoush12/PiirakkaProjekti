@@ -5,9 +5,6 @@ function RenderPie(data) {
     //var catchdata = returndata();
     //catchdata = catchdata[0].rootTarget.views.filter((ob) => ob.view == paramxy);
     //var data = catchdata[0].targets;
-
-
-
     console.log(data);
 
     var width = 960,
@@ -40,7 +37,7 @@ function RenderPie(data) {
         .data(pie(data[0].targets))
         .enter().append("g")
         .attr("class", "arc")
-        .attr ("id",function(d){return d.data.target});
+        .attr("id", function (d) { return d.data.target });
 
     g.append("path")
         .attr("d", arc)
@@ -53,10 +50,10 @@ function RenderPie(data) {
 
     d3.selectAll("g")
         .filter(".arc")
-        .on("click", function (){
-        console.log(d3.select(this).attr("id"));
-       RenderPie(ReturnFilteredView(data[0].view, d3.select(this).attr("id")));
-    }) 
+        .on("click", function () {
+            console.log(d3.select(this).attr("id"));
+            RenderPie(ReturnNext(data, d3.select(this).attr("id")));
+        })
 }
 
 function ReturnViews() {
@@ -70,41 +67,34 @@ function ReturnViews() {
     return arr;
 }
 
-function ReturnFilteredView(view,target) {
+function ReturnFilteredView(view, target) {
     var data = returndata();
-    console.log("Searching for target views:"+view+" "+target);
+    console.log("Searching for target views:" + view + " " + target);
     var reformattedArray;
-    if(target == "portfolio"){
-        reformattedArray = data[0].rootTarget.views.filter((ob)=> ob.view == view);
+    if (target == "portfolio") {
+        reformattedArray = data[0].rootTarget.views.filter((ob) => ob.view == view);
         return reformattedArray;
     }
     reformattedArray = data[0].rootTarget.views.filter((ob) => ob.view == view);
-    var result = reformattedArray[0].targets.filter((obj)  => obj.target == target);
+    var result = reformattedArray[0].targets.filter((obj) => obj.target == target);
     console.log(result);
     return result[0].views;
 }
 
-function NextView() {
-    ClearCanvas();
-    console.log("NEXT");
-    RenderPie(ReturnCurrencyView("liquidity"));
+function ReturnNext(data, target) {
+    var Result = data[0].targets.filter((ob) => ob.target == target);
+    console.log("RESULT");
+    console.log(Result)
+    return Result[0].views;
 }
 
 function ClearCanvas() {
     var canvas = document.getElementById("body");
     console.log(canvas.getElementsByTagName("svg").length);
-      var d =  canvas.getElementsByTagName("svg")
-      console.log(d);
-      for(var i = 0; i < d.length; i++){
-            d[i].remove();
-      }
+    var d = canvas.getElementsByTagName("svg")
+    console.log(d);
+    for (var i = 0; i < d.length; i++) {
+        d[i].remove();
+    }
 }
 
-function build() {
-    data = returndata();
-    var reformattedArray = data[0].rootTarget.views.map(obj => {
-        return obj.view;
-    })
-    console.log(reformattedArray);
-    //New Map loop to loop the sub classes into tree view:
-}

@@ -52,7 +52,19 @@ var data = [{
               {
                 "view": "bondClass",
                 "targets": [
-                  {"target": "europeanGovernment", "weightInPortfolio": 0.2, "weightInClass": 0.4, "marketValue": 40000000},
+                  {"target": "europeanGovernment", "weightInPortfolio": 0.2, "weightInClass": 0.4, "marketValue": 40000000, 
+                  "views": [
+                    {
+                      "view": "propertyClass",
+                      "targets": [
+                        {"target": "CommercialProperty", "weightInPortfolio": 0.03, "weightInClass": 0.3, "marketValue": 6000000},
+                        {"target": "ResidentalProperty", "weightInPortfolio": 0.03, "weightInClass": 0.3, "marketValue": 6000000},
+                        {"target": "Offices", "weightInPortfolio": 0.02, "weightInClass": 0.2, "marketValue": 4000000},
+                        {"target": "LandOrForest", "weightInPortfolio": 0.02, "weightInClass": 0.2, "marketValue": 4000000}
+                      ]  
+                    }
+                  ]
+                },
                   {"target": "europeanIG", "weightInPortfolio": 0.025, "weightInClass": 0.05, "marketValue": 5000000},
                   {"target": "europeanHY", "weightInPortfolio": 0.025, "weightInClass": 0.05, "marketValue": 5000000},
                   {"target": "europeanCovered", "weightInPortfolio": 0.025, "weightInClass": 0.05, "marketValue": 5000000},
