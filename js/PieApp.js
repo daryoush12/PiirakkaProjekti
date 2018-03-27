@@ -39,6 +39,10 @@ function RenderPie(data) {
         .attr("class", "arc")
         .attr("id", function (d) { return d.data.target });
 
+        //taulukko
+    var legendRectSize = 18;                                 
+    var legendSpacing = 4;                                   
+    
     g.append("path")
         .attr("d", arc)
         .style("fill", function (d) { return color(d.data.marketValue); });
@@ -54,6 +58,32 @@ function RenderPie(data) {
             console.log(d3.select(this).attr("id"));
             RenderPie(ReturnNext(data, d3.select(this).attr("id")));
         })
+    
+    //Legend - taulukkoa
+  var legend = svg.selectAll('.legend')                     
+          .data(color.domain())                                   
+          .enter()                                                
+          .append('g')                                            
+          .attr('class', 'legend')                                
+          .attr('transform', function(d, i) {                     
+            var height = legendRectSize + legendSpacing;           
+            var offset =  height * color.domain().length / 2;     
+            var horz = 15 * legendRectSize;                       
+            var vert = i * height - offset;                      
+            return 'translate(' + horz + ',' + vert + ')';        
+          });                                                    
+
+        legend.append('rect')                                     
+          .attr('width', legendRectSize)                          
+          .attr('height', legendRectSize)                       
+          .style('fill', color)                                  
+          .style('stroke', color);                               
+
+        legend.append('text')                                     
+          .attr('x', legendRectSize + legendSpacing)              
+          .attr('y', legendRectSize - legendSpacing)              
+          .text(function(d) { return d; });                       
+    
 }
 
 function ReturnViews() {
