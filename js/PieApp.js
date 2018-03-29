@@ -45,7 +45,7 @@ function RenderPie(data) {
     
     g.append("path")
         .attr("d", arc)
-        .style("fill", function (d) { return color(d.data.marketValue); });
+        .style("fill", function (d) { return color(d.data.target); });
 
     g.append("text")
         .attr("transform", function (d) { return "translate(" + labelArc.centroid(d) + ")"; })
@@ -115,6 +115,9 @@ function ReturnNext(data, target) {
     var Result = data[0].targets.filter((ob) => ob.target == target);
     console.log("RESULT");
     console.log(Result)
+    if(Result[0].views == undefined){
+        alert("Sorry, there isnt more views under "+target);
+    }
     return Result[0].views;
 }
 
@@ -125,6 +128,10 @@ function ClearCanvas() {
     console.log(d);
     for (var i = 0; i < d.length; i++) {
         d[i].remove();
+    }
+
+    function notify(msg) {
+        alert(msg);
     }
 }
 
