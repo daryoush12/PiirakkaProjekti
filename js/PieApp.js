@@ -2,11 +2,8 @@
 function RenderPie(data) {
     //Kutsutaan komentoa tukiluokasta ja tallennetaan piirakan renderöintiin käytettävät arvot arraylistaan.
     ClearCanvas();
-    //var catchdata = returndata();
-    //catchdata = catchdata[0].rootTarget.views.filter((ob) => ob.view == paramxy);
-    //var data = catchdata[0].targets;
     console.log(data);
-
+    //Kutsutaan data parametriä tässä ja luetaan painoprosentit, jonka jälkeen document.getelementbyid ja appendataan data tauluun.
     var width = 960,
         height = 500,
         radius = Math.min(width, height) / 2;
@@ -39,7 +36,7 @@ function RenderPie(data) {
         .attr("class", "arc")
         .attr("id", function (d) { return d.data.target });
 
-     
+        //taulukko
     var legendRectSize = 18;                                 
     var legendSpacing = 4;                                   
     
@@ -56,6 +53,8 @@ function RenderPie(data) {
         .filter(".arc")
         .on("click", function () {
             console.log(d3.select(this).attr("id"));
+            console.log("DATA WE ARE SENDING:");
+            console.log(data);
             RenderPie(ReturnNext(data, d3.select(this).attr("id")));
         })
     
@@ -112,16 +111,22 @@ function ReturnFilteredView(view, target) {
 }
 
 function ReturnNext(data, target) {
+    var Bef = data;
+    console.log("data:");
+    console.log(Bef);
     var Result = data[0].targets.filter((ob) => ob.target == target);
     console.log("RESULT");
     console.log(Result)
     if(Result[0].views == undefined){
         alert("Sorry, there isnt more views under "+target);
+        console.log(Bef);
+        return Bef;
     }
     return Result[0].views;
 }
 
 function ClearCanvas() {
+    //Taulukon tyhjennys tähän:
     var canvas = document.getElementById("body");
     console.log(canvas.getElementsByTagName("svg").length);
     var d = canvas.getElementsByTagName("svg")
