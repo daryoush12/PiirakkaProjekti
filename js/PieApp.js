@@ -39,7 +39,7 @@ function RenderPie(data) {
         .attr("class", "arc")
         .attr("id", function (d) { return d.data.target });
 
-        //taulukko
+     
     var legendRectSize = 18;                                 
     var legendSpacing = 4;                                   
     
