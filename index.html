@@ -7,6 +7,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="js/PieApp.js"></script>
   <script src="data.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
     <style>
     table, th, td {
    border: 1px solid black;
@@ -14,9 +15,10 @@
     </style>
 </head>
 <body id ="body">   
-   
+<div class = "pathc" id = "piepath"></div>  
     
     <script>
+       sessionStorage.setItem("path","");
       ReturnViews();
     //Alle logiikkaa joka vaihtaa näkymää aina napin painalluksesta:
    

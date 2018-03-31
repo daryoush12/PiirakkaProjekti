@@ -1,8 +1,28 @@
 
+
+
 function RenderPie(data) {
     //Kutsutaan komentoa tukiluokasta ja tallennetaan piirakan renderöintiin käytettävät arvot arraylistaan.
     ClearCanvas();
+    console.log("DATA WE ARE SENDING:");
     console.log(data);
+    sessionStorage.setItem(data[0].view, JSON.stringify(data[0]));
+   
+    if(PathIsEmpty()){
+        AddToPath(data[0].view);
+        document.getElementById("piepath")
+        .innerHTML += ("/<button onclick = 'RenderPie( ReturnPrevious(\"" + data[0].view + "\") )'>" + data[0].view + "</button>");
+    }
+    
+    else if(PathIsEmpty == false){
+        console.log("Not Empty Path");
+        var Path = [];
+        if(PathHasObject(CallPath()) == false){
+            document.getElementById("piepath")
+            .innerHTML += ("/<button onclick = 'RenderPie( ReturnPrevious(\"" + data[0].view + "\") )'>" + data[0].view + "</button>");
+        }
+    }
+    console.log(CallPath());
     //Kutsutaan data parametriä tässä ja luetaan painoprosentit, jonka jälkeen document.getelementbyid ja appendataan data tauluun.
     var width = 960,
         height = 500,
@@ -36,10 +56,10 @@ function RenderPie(data) {
         .attr("class", "arc")
         .attr("id", function (d) { return d.data.target });
 
-        //taulukko
-    var legendRectSize = 18;                                 
-    var legendSpacing = 4;                                   
-    
+    //taulukko
+    var legendRectSize = 18;
+    var legendSpacing = 4;
+
     g.append("path")
         .attr("d", arc)
         .style("fill", function (d) { return color(d.data.target); });
@@ -53,36 +73,34 @@ function RenderPie(data) {
         .filter(".arc")
         .on("click", function () {
             console.log(d3.select(this).attr("id"));
-            console.log("DATA WE ARE SENDING:");
-            console.log(data);
             RenderPie(ReturnNext(data, d3.select(this).attr("id")));
         })
-    
+
     //Legend - taulukkoa
-  var legend = svg.selectAll('.legend')                     
-          .data(color.domain())                                   
-          .enter()                                                
-          .append('g')                                            
-          .attr('class', 'legend')                                
-          .attr('transform', function(d, i) {                     
-            var height = legendRectSize + legendSpacing;           
-            var offset =  height * color.domain().length / 2;     
-            var horz = 15 * legendRectSize;                       
-            var vert = i * height - offset;                      
-            return 'translate(' + horz + ',' + vert + ')';        
-          });                                                    
+    var legend = svg.selectAll('.legend')
+        .data(color.domain())
+        .enter()
+        .append('g')
+        .attr('class', 'legend')
+        .attr('transform', function (d, i) {
+            var height = legendRectSize + legendSpacing;
+            var offset = height * color.domain().length / 2;
+            var horz = 15 * legendRectSize;
+            var vert = i * height - offset;
+            return 'translate(' + horz + ',' + vert + ')';
+        });
 
-        legend.append('rect')                                     
-          .attr('width', legendRectSize)                          
-          .attr('height', legendRectSize)                       
-          .style('fill', color)                                  
-          .style('stroke', color);                               
+    legend.append('rect')
+        .attr('width', legendRectSize)
+        .attr('height', legendRectSize)
+        .style('fill', color)
+        .style('stroke', color);
 
-        legend.append('text')                                     
-          .attr('x', legendRectSize + legendSpacing)              
-          .attr('y', legendRectSize - legendSpacing)              
-          .text(function(d) { return d; });                       
-    
+    legend.append('text')
+        .attr('x', legendRectSize + legendSpacing)
+        .attr('y', legendRectSize - legendSpacing)
+        .text(function (d) { return d; });
+
 }
 
 function ReturnViews() {
@@ -111,18 +129,22 @@ function ReturnFilteredView(view, target) {
 }
 
 function ReturnNext(data, target) {
-    var Bef = data;
-    console.log("data:");
-    console.log(Bef);
     var Result = data[0].targets.filter((ob) => ob.target == target);
     console.log("RESULT");
     console.log(Result)
-    if(Result[0].views == undefined){
-        alert("Sorry, there isnt more views under "+target);
-        console.log(Bef);
-        return Bef;
+    if (Result[0].views == undefined) {
+        alert("Sorry, there isnt more views under " + target);
+        return this.data[0];
     }
     return Result[0].views;
+}
+function ReturnPrevious(view) {
+    console.log("Path called");
+    var data = [];
+    data.push(JSON.parse(sessionStorage.getItem(view)));
+    console.log(sessionStorage.getItem(view));
+    console.log(data);
+    return data;
 }
 
 function ClearCanvas() {
@@ -138,5 +160,38 @@ function ClearCanvas() {
     function notify(msg) {
         alert(msg);
     }
-}
+    }
 
+    function PathIsEmpty() {
+        if(sessionStorage.getItem("path") == ""){
+            console.log("Is Empty");
+            return true;
+        }
+        return false;
+    }
+    
+    function AddToPath(addable){
+        var path = [];
+        path.push(addable);
+        sessionStorage.setItem("path",JSON.stringify(path));
+        if(path != undefined || path != null || path == ""){
+            path.push(addable);
+        }
+    }
+    
+    function CallPath(){
+        var path = [];
+        var js = sessionStorage.getItem("path");
+        path.push(JSON.parse(js));
+        return path;
+    }
+
+    function PathHasObject(path){
+        path.forEach((p,i) => {
+            console.log(p);
+            if(p == data[0].view){
+                return true;
+            }
+        });
+        return false;
+    }
