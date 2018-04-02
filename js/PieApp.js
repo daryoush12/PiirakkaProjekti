@@ -1,6 +1,3 @@
-
-
-
 function RenderPie(data) {
     //Kutsutaan komentoa tukiluokasta ja tallennetaan piirakan renderöintiin käytettävät arvot arraylistaan.
     ClearCanvas();
@@ -56,9 +53,6 @@ function RenderPie(data) {
         .attr("class", "arc")
         .attr("id", function (d) { return d.data.target });
 
-    //taulukko
-    var legendRectSize = 18;
-    var legendSpacing = 4;
 
     g.append("path")
         .attr("d", arc)
@@ -76,31 +70,50 @@ function RenderPie(data) {
             RenderPie(ReturnNext(data, d3.select(this).attr("id")));
         })
 
-    //Legend - taulukkoa
-    var legend = svg.selectAll('.legend')
+    //Table
+    d3.selectAll("table")
+
+        .select("tr")
+        .data(pie(data[0].targets))
+        .enter().append("tr")
+        .append("table")
+        .text(function (d) { return d.data.target + " : " + d.data.marketValue;})
+    
+        .style("border", "1px solid black")
+        .style("padding", "5px")
+        .style("text-align", "left")
+        
+        
+        
+    //Legend 
+    var legendRectSize = 18;
+    var legendSpacing = 4;
+    
+    var legend = svg.selectAll(".legend")
         .data(color.domain())
         .enter()
-        .append('g')
-        .attr('class', 'legend')
-        .attr('transform', function (d, i) {
+        .append("g")
+        .attr("class", "legend")
+        .attr("transform", function (d, i) {
             var height = legendRectSize + legendSpacing;
             var offset = height * color.domain().length / 2;
             var horz = 15 * legendRectSize;
             var vert = i * height - offset;
-            return 'translate(' + horz + ',' + vert + ')';
+            return "translate(" + horz + "," + vert + ")";
         });
 
-    legend.append('rect')
-        .attr('width', legendRectSize)
-        .attr('height', legendRectSize)
-        .style('fill', color)
-        .style('stroke', color);
+    legend.append("rect")
+        .attr("width", legendRectSize)
+        .attr("height", legendRectSize)
+        .style("fill", color)
+        .style("stroke", color);
 
-    legend.append('text')
-        .attr('x', legendRectSize + legendSpacing)
-        .attr('y', legendRectSize - legendSpacing)
+    legend.append("text")
+        .attr("x", legendRectSize + legendSpacing)
+        .attr("y", legendRectSize - legendSpacing)
         .text(function (d) { return d; });
 
+    
 }
 
 function ReturnViews() {
@@ -195,3 +208,6 @@ function ClearCanvas() {
         });
         return false;
     }
+
+
+   

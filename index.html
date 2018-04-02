@@ -8,59 +8,22 @@
   <script src="js/PieApp.js"></script>
   <script src="data.js"></script>
   <link rel="stylesheet" href="css/styles.css">
-    <style>
-    table, th, td {
-   border: 1px solid black;
-        }
-    </style>
+  
 </head>
 <body id ="body">   
+
 <div class = "pathc" id = "piepath"></div>  
+
+
+   
     
     <script>
        sessionStorage.setItem("path","");
       ReturnViews();
     //Alle logiikkaa joka vaihtaa näkymää aina napin painalluksesta:
    
-//taulukko
-d3.json('js/top.json', function (error,data) {
-
-function tabulate(data, columns) {
-  var table = d3.select('body').append('table')
-  var thead = table.append('thead')
-  var tbody = table.append('tbody');
-
-  //Header rivi
-  thead.append('tr')
-    .selectAll('th')
-    .data(columns).enter()
-    .append('th')
-    .text(function (column) { return column; });
-
-  //rivit
-  var rows = tbody.selectAll('tr')
-    .data(data)
-    .enter()
-    .append('tr');
-
-  //solut
-  var cells = rows.selectAll('td')
-    .data(function (row) {
-      return columns.map(function (column) {
-        return {column: column, value: row[column]};
-      });
-    })
-    .enter()
-    .append('td')
-      .text(function (d) { return d.value; });
-
-  return table;
-}
 
 
-tabulate(data, ['secId', 'secName','weightInClass','marketValueInClass','classWeightInPortfolio','totalMarketValue']);  
-
-});
     </script>
 </body>
 </html>
