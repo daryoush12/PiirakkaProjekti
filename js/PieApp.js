@@ -69,7 +69,7 @@ function RenderPie(data) {
             console.log(d3.select(this).attr("id"));
             RenderPie(ReturnNext(data, d3.select(this).attr("id")));
         })
-
+    d3.selectAll("table").remove("");
     //Table
     d3.selectAll("table")
 
