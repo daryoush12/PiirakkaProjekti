@@ -7,19 +7,20 @@ function RenderPie(data) {
     console.log("DATA WE ARE SENDING:");
     console.log(data);
     sessionStorage.setItem(data[0].view, JSON.stringify(data[0]));
-   
-    if(PathIsEmpty()){
+
+    if (PathIsEmpty()) {
         AddToPath(data[0].view);
         document.getElementById("piepath")
-        .innerHTML += ("/<button onclick = 'RenderPie( ReturnPrevious(\"" + data[0].view + "\") )'>" + data[0].view + "</button>");
-    }
-    
-    else if(PathIsEmpty == false){
-        console.log("Not Empty Path");
-        var Path = [];
-        if(PathHasObject(CallPath()) == false){
-            document.getElementById("piepath")
             .innerHTML += ("/<button onclick = 'RenderPie( ReturnPrevious(\"" + data[0].view + "\") )'>" + data[0].view + "</button>");
+    }
+
+    else if (PathIsEmpty() == false) {
+        console.log("Not Empty Path");
+        AddToPath(data[0].view);
+        var Path = [];
+        if (PathHasObject(CallPath()) == false) {
+            document.getElementById("piepath")
+                .innerHTML += ("/<button onclick = 'RenderPie( ReturnPrevious(\"" + data[0].view + "\") )'>" + data[0].view + "</button>");
         }
     }
     console.log(CallPath());
@@ -160,38 +161,40 @@ function ClearCanvas() {
     function notify(msg) {
         alert(msg);
     }
-    }
+}
 
-    function PathIsEmpty() {
-        if(sessionStorage.getItem("path") == ""){
-            console.log("Is Empty");
+function PathIsEmpty() {
+    if (sessionStorage.getItem("path") == "") {
+        console.log("Is Empty");
+        return true;
+    }
+    return false;
+}
+
+function AddToPath(addable) {
+    var path = sessionStorage.getItem("path");
+    if (path != undefined || path != null || path == "") {
+        console.log("Null creating new..");
+        path = [];
+        path.push(addable);
+        essionStorage.setItem("path", JSON.stringify(path));
+    }
+    else {
+        path.push(addable);
+        sessionStorage.setItem("path", JSON.stringify(path));
+    }
+}
+
+function CallPath() {
+    var path = JSON.parse(sessionStorage.getItem("path"));
+    return path;
+}
+
+function PathHasObject(path, view) {
+    for (var i = 0; i < path.length; i++) {
+        if (path == view) {
             return true;
         }
-        return false;
     }
-    
-    function AddToPath(addable){
-        var path = [];
-        path.push(addable);
-        sessionStorage.setItem("path",JSON.stringify(path));
-        if(path != undefined || path != null || path == ""){
-            path.push(addable);
-        }
-    }
-    
-    function CallPath(){
-        var path = [];
-        var js = sessionStorage.getItem("path");
-        path.push(JSON.parse(js));
-        return path;
-    }
-
-    function PathHasObject(path){
-        path.forEach((p,i) => {
-            console.log(p);
-            if(p == data[0].view){
-                return true;
-            }
-        });
-        return false;
-    }
+    return false;
+}
