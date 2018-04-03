@@ -5,7 +5,7 @@ function RenderPie(data) {
     console.log(data);
     sessionStorage.setItem(data[0].view, JSON.stringify(data[0]));
 
-    if (PathIsEmpty()) {
+    if (PathIsEmpty() == true) {
         AddToPath(data[0].view);
         document.getElementById("piepath")
             .innerHTML += ("/<button onclick = 'RenderPie( ReturnPrevious(\"" + data[0].view + "\") )'>" + data[0].view + "</button>");
@@ -13,11 +13,15 @@ function RenderPie(data) {
 
     else if (PathIsEmpty() == false) {
         console.log("Not Empty Path");
-        AddToPath(data[0].view);
         var Path = [];
-        if (PathHasObject(CallPath()) == false) {
+        console.log("PATHHASOBJECT: "+PathHasObject(CallPath(),data[0].view) );
+        if (PathHasObject(CallPath(),data[0].view) == false) {
+            AddToPath(data[0].view);
             document.getElementById("piepath")
                 .innerHTML += ("/<button onclick = 'RenderPie( ReturnPrevious(\"" + data[0].view + "\") )'>" + data[0].view + "</button>");
+        }
+        else {
+
         }
     }
     console.log(CallPath());
@@ -186,13 +190,14 @@ function PathIsEmpty() {
 
 function AddToPath(addable) {
     var path = sessionStorage.getItem("path");
-    if (path != undefined || path != null || path == "") {
+    if (path == undefined || path == null || path == "") {
         console.log("Null creating new..");
         path = [];
         path.push(addable);
-        essionStorage.setItem("path", JSON.stringify(path));
+        sessionStorage.setItem("path", JSON.stringify(path));
     }
     else {
+        path = JSON.parse(path);
         path.push(addable);
         sessionStorage.setItem("path", JSON.stringify(path));
     }
@@ -200,12 +205,17 @@ function AddToPath(addable) {
 
 function CallPath() {
     var path = JSON.parse(sessionStorage.getItem("path"));
+    console.log("CALL PATH:");
+    console.log(path);
     return path;
 }
 
 function PathHasObject(path, view) {
+
+    console.log(path+" compared to : "+view);
+    console.log(path);
     for (var i = 0; i < path.length; i++) {
-        if (path == view) {
+        if (path[i] == view) {
             return true;
         }
     }
